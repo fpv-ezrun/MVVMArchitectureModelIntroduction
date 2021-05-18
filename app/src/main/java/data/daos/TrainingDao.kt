@@ -12,7 +12,7 @@ import data.db.entities.Training
 @Dao
 interface TrainingDao {
     @Insert(onConflict=REPLACE)
-    suspend fun updateInsert(training: Training) : Long
+    fun updateInsert(training: Training) : Long
 
     @Delete
     fun delete(training: Training) : Int
