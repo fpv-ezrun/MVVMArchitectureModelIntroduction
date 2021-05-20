@@ -31,6 +31,7 @@ abstract class ServiceTest<T : Any>(private val defaultClient: DefaultClient = D
     @Before
     open fun setup()
     {
+        print("setup service test \n")
         MockitoAnnotations.initMocks(this)
     }
 
@@ -82,6 +83,8 @@ abstract class ServiceTest<T : Any>(private val defaultClient: DefaultClient = D
 
     private fun assertRequest(method: String, path: String, expectedBody: String?)
     {
+        print("avant Takerequest\n")
+        print(serverRule.toString()+"\n")
         takeRequest().let {
             assertEquals(method, it.method)
             assertEquals(path, it.path)
@@ -106,4 +109,5 @@ abstract class ServiceTest<T : Any>(private val defaultClient: DefaultClient = D
             headers.forEach { assertEquals(it.second, request.getHeader(it.first)) }
         }
     }
+    fun String.removeWhiteSpacesAndNewLines() = replace("[\\s\\n]+".toRegex(), "")
 }

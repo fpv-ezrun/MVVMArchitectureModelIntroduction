@@ -13,12 +13,15 @@ import org.robolectric.RobolectricTestRunner
 @RunWith(RobolectricTestRunner::class)
 class TrainingServiceTest : ServiceTest<TrainingServices>() {
     override fun buildSubject(baseUrl: String, client: OkHttpClient): TrainingServices {
-        return
+        return TrainingServices.getInstance(baseUrl, client, TrainingServices::class.java)
     }
     @Test
     fun `fetchTraining() all good`() = runBlockingTest {
-        //enqueueSuccessWithResponse("success_get_training.json")
+        print("enter test fetchTraining\n")
+        enqueueSuccessWithResponse("training.json")
+        print("enqueue json done \n")
         //assertResponse(getTrainingSessionOutput()) { subject.fetchTraining() }
-        assertGET("/product/football-teams/teid/seasons/sid/trainings/trid")
+        assertGET("trainings")
     }
+
 }

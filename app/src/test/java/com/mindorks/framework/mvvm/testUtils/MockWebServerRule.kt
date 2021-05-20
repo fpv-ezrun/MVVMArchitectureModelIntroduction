@@ -12,12 +12,14 @@ class MockWebServerRule : TestWatcher()
 
     override fun starting(description: Description?)
     {
+        print("MockServerRule start\n")
         super.starting(description)
         server.start()
     }
 
     override fun finished(description: Description?)
     {
+        print("MockServerRule stop\n")
         super.finished(description)
         server.shutdown()
     }
