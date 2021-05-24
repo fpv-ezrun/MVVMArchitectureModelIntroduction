@@ -12,8 +12,8 @@ buildscript {
   //  androidTestİmplementation 'com.android.support.test:runner:1.0.2'
     //androidTestİmplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.android.tools.build:gradle:4.2.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.0"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

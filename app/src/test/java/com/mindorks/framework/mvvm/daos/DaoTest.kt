@@ -6,8 +6,6 @@ import androidx.test.core.app.ApplicationProvider
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 import com.google.common.truth.Truth.assertThat
 //import com.sun.tools.javac.util.DefinedBy.Api
 import data.daos.TrainingDao
@@ -20,7 +18,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 
 
@@ -105,7 +102,7 @@ abstract class DaoTest<T : Any> {
 
     @Test
     open fun testAPIJava() {
-        var api = testAPI()
+        var api = testAPIold()
         print("Reponse: <<<<<<<<<<"+api.get("http://localhost:3000/trainings")+">>>>>>>>>>>>\n")
     }
 }

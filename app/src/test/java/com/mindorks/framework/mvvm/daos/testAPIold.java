@@ -14,7 +14,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-public class testAPI {
+public class testAPIold {
 
     public String get(String url)
     {

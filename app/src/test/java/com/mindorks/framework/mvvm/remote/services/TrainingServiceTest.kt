@@ -1,24 +1,38 @@
 package com.mindorks.framework.mvvm.remote.services
 
-import com.mindorks.framework.mvvm.testUtils.ServiceTest
-import data.remote.services.TrainingServices
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
+import com.mindorks.framework.mvvm.testUtils.readResourceAsString
+import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.mockwebserver.MockResponse
+import okhttp3.mockwebserver.MockWebServer
+import org.junit.Assert
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
+import java.io.IOException
 
-@ExperimentalCoroutinesApi
-@RunWith(RobolectricTestRunner::class)
-class TrainingServiceTest : ServiceTest<TrainingServices>() {
-    override fun buildSubject(baseUrl: String, client: OkHttpClient): TrainingServices {
-        return
-    }
+class TrainingServiceTest {
     @Test
-    fun `fetchTraining() all good`() = runBlockingTest {
-        //enqueueSuccessWithResponse("success_get_training.json")
-        //assertResponse(getTrainingSessionOutput()) { subject.fetchTraining() }
-        assertGET("/product/football-teams/teid/seasons/sid/trainings/trid")
+    @Throws(IOException::class, InterruptedException::class)
+    fun assertGetAndBodyRequest() {
+        val server = MockWebServer()
+        print(readResourceAsString("training.json")+"\n")
+        val maString = readResourceAsString("training.json")
+        server.enqueue(MockResponse().setBody(readResourceAsString("training.json")))
+        server.start()
+        val baseUrl = server.url("/trainings")
+        val bodyRequest = sendAndAssertGetRequest(OkHttpClient(), baseUrl)
+        Assert.assertEquals(maString, bodyRequest)
+    }
+
+    @Throws(IOException::class)
+    private fun sendAndAssertGetRequest(client: OkHttpClient, base: HttpUrl): String {
+        val request = Request.Builder()
+            .url(base)
+            .build()
+        val response = client.newCall(request).execute()
+        print(request.method+"\n")
+        Assert.assertEquals("GET",request.method)
+        //print(response.body!!.contentLength().toString()+"\n")
+        return response.body!!.string()
     }
 }
