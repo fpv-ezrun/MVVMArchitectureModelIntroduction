@@ -8,7 +8,7 @@ import retrofit2.Retrofit;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class APIRepository {
+public class APIRepositoryold {
    fun main() {
        print("totototototototo\n")
        val url = "localhost:3000/trainings"

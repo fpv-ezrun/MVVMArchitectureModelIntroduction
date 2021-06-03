@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!--tools:context=".MainActivity">-->
+
+
+    <EditText
+        android:id="@+id/Number_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:inputType="number"
+        android:hint="Entrer un nombre "/>
+    <TextView
+        android:layout_below="@+id/Number_input"
+        android:id="@+id/multiple2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="20dp"
+        android:text="MULTIPLE DE 2:"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+    <TextView
+
+        android:layout_below="@+id/multiple2"
+        android:id="@+id/multiple3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="20dp"
+        android:text="MULTIPLE DE 3:"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+    <TextView
+
+        android:layout_below="@+id/multiple3"
+        android:id="@+id/multiple5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="20dp"
+        android:text="MULTIPLE DE 5:"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+    <TextView
+
+        android:layout_below="@+id/multiple5"
+        android:id="@+id/multiple7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="20dp"
+        android:text="MULTIPLE DE 7:"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+    <Button
+
+        android:id="@+id/buttonChercher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/multiple7"
+        android:layout_margin="0dp"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="50dp"
+        android:background="@android:color/holo_blue_light"
+        android:text="Chercher"
+        android:textColor="@android:color/white"
+        android:textSize="20sp" />
+    <TextView
+
+        android:layout_below="@+id/buttonChercher"
+        android:id="@+id/TextTraining"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="100dp"
+        android:text="Training:"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+</RelativeLayout>
