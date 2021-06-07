@@ -14,7 +14,7 @@ public class MainActivity : AppCompatActivity(){
     lateinit var viewModel: TestViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.test_main)
+        setContentView(R.layout.trainingtest)
 
         updateText()
 

@@ -4,11 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mindorks.framework.mvvm.testUtils.mockReturn
 import com.mindorks.framework.mvvm.testUtils.readResourceAsString
+import com.nhaarman.mockitokotlin2.verify
 import data.daos.TrainingDao
 import data.db.entities.Training
 import data.remote.services.TrainingServices
 import data.repository.TrainingRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.OkHttpClient
@@ -21,6 +24,7 @@ import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
+@ExperimentalCoroutinesApi
 class TrainingRepositoryTest {
 
     var baseUrl : HttpUrl = "https://www.youtube.com/user/WatchTheDaily/videos".toHttpUrlOrNull()!!
@@ -39,8 +43,8 @@ class TrainingRepositoryTest {
     fun setup(){
       MockitoAnnotations.initMocks(this)
         val server = MockWebServer()
-        server.enqueue(MockResponse().setBody(readResourceAsString("training.json")))
-        server.start()
+       // server.enqueue(MockResponse().setBody(readResourceAsString("training.json")))
+       // server.start()
         baseUrl = server.url("/trainings")
         subject = TrainingRepository(local, remote)
       TrainingRepository(local, remote)
@@ -55,21 +59,25 @@ class TrainingRepositoryTest {
 
     }
     @Test
-     fun localGetAllTraining(){
+     fun localGetAllTraining() = runBlockingTest {
         Assert.assertEquals(monLiveDataListTraining,subject.getLocalTraining())
+        verify(local).getAllTraining()
     }
     @Test
-    fun remoteGetAllTraining(){
+    fun remoteGetAllTraining() = runBlockingTest{
         Assert.assertEquals(monString,subject.getTrainingFromWeb(monClient,baseUrl))
+        verify(remote).FetchTraining(monClient,baseUrl)
     }
     @Test
-    fun localUpdateTraining(){
-        Assert.assertEquals(1,subject.insertUpdate(monTraining))
+    fun localUpdateTraining() = runBlockingTest{
 
+        Assert.assertEquals(1,subject.insertUpdate(monTraining))
+        verify(local).updateInsert(monTraining)
     }
     @Test
-    fun deleteTraining(){
+    fun deleteTraining() = runBlockingTest{
         Assert.assertEquals(1,subject.delete(monTraining))
+        verify(local).delete(monTraining)
     }
     @After
     fun close(){

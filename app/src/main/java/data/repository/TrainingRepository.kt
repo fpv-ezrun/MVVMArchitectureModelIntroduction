@@ -8,21 +8,21 @@ import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 
 class TrainingRepository (private val local: TrainingDao, private val remote: TrainingServices){
-    val localTrainings = local.getAllTraining()
+//    val localTrainings = local.getAllTraining()
 
-   fun getTrainingFromWeb(client: OkHttpClient,URL: HttpUrl): String {
+    suspend fun getTrainingFromWeb(client: OkHttpClient,URL: HttpUrl): String {
         return remote.FetchTraining(client,URL)
     }
 
-    fun getLocalTraining(): LiveData<List<Training>> {
+    suspend fun getLocalTraining(): LiveData<List<Training>> {
         return local.getAllTraining()
     }
 
-     fun insertUpdate(training: Training): Long {
+    suspend fun insertUpdate(training: Training): Long {
        return local.updateInsert(training)
     }
 
-     fun delete(training: Training): Int {
+    suspend fun delete(training: Training): Int {
         return local.delete(training)
     }
 
