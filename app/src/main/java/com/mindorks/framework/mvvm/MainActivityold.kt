@@ -9,12 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 
-public class MainActivity : AppCompatActivity(){
+public class MainActivityold : AppCompatActivity(){
 
     lateinit var viewModel: TestViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.trainingtest)
+        setContentView(R.layout.trainingtestold)
 
         updateText()
 

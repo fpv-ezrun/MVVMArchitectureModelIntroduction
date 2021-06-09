@@ -4,17 +4,15 @@ package com.mindorks.framework.mvvm
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 
-public class MainTrainingActivity : AppCompatActivity(){
+public class MainTrainingActivityold : AppCompatActivity(){
 
     lateinit var viewModel: TrainingViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.trainingtest)
+        setContentView(R.layout.trainingtestold)
 
         updateText()
 
