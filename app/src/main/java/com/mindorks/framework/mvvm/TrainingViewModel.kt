@@ -3,6 +3,7 @@ package com.mindorks.framework.mvvm
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import data.db.entities.Training
+import data.repository.TrainingRepository
 
 class TrainingViewModel : ViewModel(){
 
@@ -10,6 +11,9 @@ class TrainingViewModel : ViewModel(){
 
         MutableLiveData<List<Training>>()
     }
+
+    lateinit var repository : TrainingRepository
+
 
 
 
