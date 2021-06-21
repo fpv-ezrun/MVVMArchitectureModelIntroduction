@@ -3,7 +3,9 @@ package com.mindorks.framework.mvvm
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.room.Room
 import data.daos.TrainingDao
+import data.db.AppDatabase
 import data.db.entities.Training
 import data.remote.services.TrainingServices
 import data.repository.TrainingRepository
@@ -13,8 +15,11 @@ import retrofit2.http.Url
 import java.net.URL
 
 //Pour instancier le repository, il doit faire appel aux fonctions lors des gets et sets, il doit aussi ne pas être instancicié dans le main
-class TestViewModel : ViewModel() {
-    val ListTraining: MutableLiveData<List<Training>> by lazy {
+class TrainingViewModel : ViewModel() {
+    lateinit var repository: TrainingRepository
+
+    val ListTraining: MutableLiveData<List<Training>> by lazy {         //pour set une valeur d'un mutable livedata, il faut soit utiliser setValue, soit utilisé postValue ce qui permet
+                                                                        //    au main thread de set la valeur voulue
 
         MutableLiveData<List<Training>>()
     }
@@ -30,6 +35,14 @@ class TestViewModel : ViewModel() {
     lateinit var remote : TrainingServices
     var repository : TrainingRepository = TrainingRepository(local,remote)*/
 
+
+    //Initialisation de la base de données
+
+    fun init(dao: TrainingDao,remote: TrainingServices){
+        repository = TrainingRepository(dao,remote)    //initialisation du repository pour l'utiliser à travers d'autre fonction de get et de set
+
+    }
+
     //setter
 
      fun  setTmpTrainingString(value:String){
@@ -37,10 +50,16 @@ class TestViewModel : ViewModel() {
         TmpTrainingString.value = value
     }
 
-     fun setTrainingListTraining(value:Training,index:Int){
-        TmpTraining = value
-        ListTraining.value?.get(index)?.training_id = value.training_id
-        ListTraining.value?.get(index)?.name = value.name
+     fun setTrainingListTraining(InsertTraining:Training,index:Int){
+       // TmpTraining = InsertTraining
+        ListTraining.value?.get(index)?.training_id = InsertTraining.training_id
+        ListTraining.value?.get(index)?.name = InsertTraining.name
+         print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Insertion du training avec :"+ListTraining.value?.get(index)?.training_id+"index "+index+">>>>>>>>>>>>>>>>>>>")
+    }
+
+    suspend fun setLocalTrainingFromRepository(InsertTraining: Training){
+        repository.insertUpdate(InsertTraining)
+
     }
 
 
@@ -64,9 +83,15 @@ class TestViewModel : ViewModel() {
         return TmpTrainingString.value.toString()
     }
 
-    fun getTrainingListTraining(index:Int): Training{
+    fun getTrainingListTraining(index:Int): Training? {
        // TmpTraining = ListTraining.value?.get(index)!!
-        return TmpTraining
+        //return TmpTraining
+        return ListTraining.value?.get(index)
+    }
+
+    fun getLocalTrainingsFromRepository(): LiveData<List<Training>> {
+
+        return repository.getLocalTraining()
     }
     /*suspend fun getListTrainingLocal(): LiveData<List<Training>> {
             return repository.getLocalTraining()

@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.fragment.app.FragmentManager;
 
+import androidx.room.Room;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -22,10 +23,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import data.daos.TrainingDao;
+import data.db.AppDatabase;
 import data.db.entities.Training;
 import data.remote.services.TrainingServices;
 import data.repository.TrainingRepository;
@@ -37,7 +38,7 @@ import okhttp3.OkHttpClient;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    TestViewModel model;
+    TrainingViewModel model;
     TabLayout tabLayout;
     ViewPager2 pager2;
     FragmentAdapter adapter;
@@ -47,66 +48,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Training MyTmpTraining;
     TrainingRepository MyTmpRepository;
     TrainingDao local;
-    TrainingServices remote;
+    TrainingServices remote = new TrainingServices() {
+        @NotNull
+        @Override
+        public String TestFetch(@NotNull String String) {
+            return null;
+        }
+
+        @NotNull
+        @Override
+        public String FetchTraining(@NotNull OkHttpClient client, @NotNull HttpUrl base) throws IOException {
+            return null; //TODO temporairement les webservices ne sont pas encore prix en compte par l'application
+        }
+    };
     Continuation<?super Long> TmpLong;
     Continuation<? super Unit> TmpUnit;
-    Continuation<? super LiveData<List<Training>>> TmpLive;
+    Continuation<? super LiveData<List<? extends Training>>> TmpLivetest;
+    Continuation<? super LiveData<List<? extends Training>>> TmpLive;
     LiveData<List<Training>> TmpLivedata;
     List<Training> TmpListTraining = new ArrayList<>();
+    int cptTraining = 0;
+    AppDatabase database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        local = new TrainingDao() {
-            @Override
-            public long updateInsert(@NotNull Training training) {
-                return 0;
-            }
 
-            @Override
-            public int delete(@NotNull Training training) {
-                return 0;
-            }
+        //MyTmpRepository = new TrainingRepository(local, remote);
+        model = new ViewModelProvider(this).get(TrainingViewModel.class); // Pour initialiser ma couche viewmodel
 
-            @NotNull
-            @Override
-            public LiveData<List<Training>> getAllTraining() {
-                return null;
-            }
-
-            @NotNull
-            @Override
-            public LiveData<Training> gettrainingid(int trainingId) {
-                return null;
-            }
-        };
-        remote = new TrainingServices() {
-            @NotNull
-            @Override
-            public String TestFetch(@NotNull String String) {
-                return null;
-            }
-
-            @NotNull
-            @Override
-            public String FetchTraining(@NotNull OkHttpClient client, @NotNull HttpUrl base) throws IOException {
-                return null;
-            }
-        };
-
-        MyTmpRepository = new TrainingRepository(local, remote);
-        model = new ViewModelProvider(this).get(TestViewModel.class); // Pour initialiser ma couche viewmodel
-        final Button btn1search = (Button) findViewById(R.id.buttonChercher);
-        Snackbar SnackbarError = Snackbar.make(findViewById(R.id.view_pager2),"Saisir un Training Valide !!!",3000); //initialisation des messages erreurs saisie
-        Snackbar SnackbarValide = Snackbar.make(findViewById(R.id.view_pager2),"Enregistrement du Training Réussi !!!",3000);//initialisation des messages d'enregistrement
-        tabLayout = findViewById(R.id.tab_layout);
         pager2 = findViewById(R.id.view_pager2);
+        final Button btn1search = (Button) findViewById(R.id.buttonChercher);
+        Snackbar SnackbarError = Snackbar.make(pager2,"Saisir un Training Valide !!!",3000); //initialisation des messages erreurs saisie
+        Snackbar SnackbarValide = Snackbar.make(pager2,"Enregistrement du Training Réussi !!!",3000);//initialisation des messages d'enregistrement
+        Snackbar SnackbarUpdate = Snackbar.make(pager2,"Rien a mettre a jour !!!",3000);
+        tabLayout = findViewById(R.id.tab_layout);
+        database = Room.inMemoryDatabaseBuilder(getApplicationContext(),AppDatabase.class).allowMainThreadQueries().build();//initialisation de la db en local //TODO le refactoriser dans une classe d'initialisation
+        System.out.println("Database initialisée, nom de la db : database");
         MonText = (TextView) findViewById(R.id.title_add);
         MyTmpTraining = new Training(1,"test");
         FragmentManager fm = getSupportFragmentManager();
         adapter = new FragmentAdapter(fm, getLifecycle());
         pager2.setAdapter(adapter);
+        model.init(database.getTrainingDao(),remote);
 
         tabLayout.addTab(tabLayout.newTab().setText("Insert Trainings"));
         tabLayout.addTab(tabLayout.newTab().setText("View Trainings"));
@@ -137,7 +122,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
            tabLayout.selectTab(tabLayout.getTabAt(position));
            final Button btn1search = (Button) findViewById(R.id.buttonChercher);
            final TextView FirstTraining = (TextView) findViewById(R.id.first_training);
-            if (btn1search!=null ){
+           final TextView second_Training = (TextView) findViewById(R.id.second_training);
+           final TextView third_Training = (TextView) findViewById(R.id.third_training);
+           final TextView fourth_Training = (TextView) findViewById(R.id.fourth_training);
+           final TextView fifth_Training = (TextView) findViewById(R.id.fifth_training);
+           final Button update = (Button) findViewById(R.id.update_training);
+           if (update!=null){
+               update.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View v) {
+                       if(model.TmpTraining!=null) {
+                           if(model.getTrainingListTraining(0).getTraining_id()!=null) {
+                               FirstTraining.setText("- id: " + model.getTrainingListTraining(0).getTraining_id() + " name: " + model.getTrainingListTraining(0).getName());
+                           }
+                           if(model.getTrainingListTraining(1).getTraining_id()!=null) {
+                               second_Training.setText("- id: " + model.getTrainingListTraining(1).getTraining_id() + " name: " + model.getTrainingListTraining(1).getName());
+                           }
+                           if(model.getTrainingListTraining(2).getTraining_id()!=null) {
+                               third_Training.setText("- id: " + model.getTrainingListTraining(2).getTraining_id() + " name: " + model.getTrainingListTraining(2).getName());
+                           }
+                           if(model.getTrainingListTraining(3).getTraining_id()!=null) {
+                               fourth_Training.setText("- id: " + model.getTrainingListTraining(3).getTraining_id() + " name: " + model.getTrainingListTraining(3).getName());
+                           }
+                           if(model.getTrainingListTraining(4).getTraining_id()!=null) {
+                               fifth_Training.setText("- id: " + model.getTrainingListTraining(4).getTraining_id() + " name: " + model.getTrainingListTraining(4).getName());
+                           }
+                       }else {
+                           SnackbarUpdate.show();
+                       }
+                   }
+               });
+           }
+           if (btn1search!=null ){
            btn1search.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
@@ -152,15 +168,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                MyTmpTraining.setTraining_id(Integer.parseInt(EditId.getText().toString()));
                                MyTmpTraining.setName(EditString.getText().toString());
                               // MyTmpRepository.insertUpdate(MyTmpTraining,TmpLong);
-                               TmpListTraining.add(MyTmpTraining);
+                              // TmpListTraining.add(MyTmpTraining);
                                //model.setTestlateinit(TmpListTraining);
                                //model.testlateinit.add(0,MyTmpTraining);
                                System.out.println("Training enregistré en db :"+"Description :"+MyTmpTraining.getName()+" id :"+MyTmpTraining.getTraining_id());
-                               System.out.println("Résultat du Livedata:"+TmpListTraining.get(0));
-                                model.setTrainingListTraining(MyTmpTraining,0);
-                               System.out.println("Résultat du livedata depuis le viewmodel avec id: "+model.getTrainingListTraining(0).getTraining_id()+" name: "+model.getTrainingListTraining(0).getName());
+                              // System.out.println("Résultat du Livedata:"+TmpListTraining.get(0));
+                                model.setTrainingListTraining(MyTmpTraining,cptTraining);
+                                model.setLocalTrainingFromRepository(MyTmpTraining,TmpUnit);
+                                System.out.println("Observe"+model.getLocalTrainingsFromRepository());
+                               cptTraining++;
+                               //System.out.println("ATTTTTTTTTTTTTTTTTTTTTTTT : "+model.getTrainingListTraining(0));
+                               System.out.println("Valeur du compteur des trainings : "+cptTraining);
+                               //System.out.println("Résultat du livedata depuis le viewmodel avec id: "+model.getTrainingListTraining(0).getTraining_id()+" name: "+model.getTrainingListTraining(0).getName());
                                // model.setTrainingLocal(MyTmpTraining,TmpUnit);
-                               FirstTraining.setText("- id: "+model.getTrainingListTraining(0).getTraining_id()+" name: "+model.getTrainingListTraining(0).getName());
+                               //onPageSelected(1);//changement de page vers la page 2
+                                System.out.println("En attente du changement de page");
+                               //FirstTraining.setText("- id: "+model.getTrainingListTraining(0).getTraining_id()+" name: "+model.getTrainingListTraining(0).getName());
+
                                SnackbarValide.show();
                            } else {
 
@@ -168,8 +192,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                            }
 
                            break;
-                       case R.id.update_training:
-                           FirstTraining.setText("- id: "+model.getTrainingListTraining(0).getTraining_id()+" name: "+model.getTrainingListTraining(0).getName());
 
                    }
                }

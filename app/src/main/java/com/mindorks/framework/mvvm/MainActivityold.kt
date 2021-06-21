@@ -11,14 +11,14 @@ import androidx.lifecycle.ViewModelProvider
 
 public class MainActivityold : AppCompatActivity(){
 
-    lateinit var viewModel: TestViewModel
+    lateinit var viewModel: TrainingViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.trainingtestold)
 
         updateText()
 
-        viewModel = ViewModelProvider(this).get(TestViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(TrainingViewModel::class.java)
 
         viewModel.currentMul2.observe(this, Observer {
             findViewById<TextView>(R.id.multiple2).text = it.toString()
