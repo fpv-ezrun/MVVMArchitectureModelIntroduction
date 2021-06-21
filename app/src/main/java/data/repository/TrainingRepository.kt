@@ -14,7 +14,7 @@ class TrainingRepository (private val local: TrainingDao, private val remote: Tr
         return remote.FetchTraining(client,URL)
     }
 
-    fun getLocalTraining(): LiveData<List<Training>> {
+    suspend fun getLocalTraining(): List<Training> {
         return local.getAllTraining()
     }
 

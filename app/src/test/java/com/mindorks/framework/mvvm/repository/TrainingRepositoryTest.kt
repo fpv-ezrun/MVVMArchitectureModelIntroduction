@@ -28,7 +28,7 @@ import org.mockito.MockitoAnnotations
 class TrainingRepositoryTest {
 
     var baseUrl : HttpUrl = "https://www.youtube.com/user/WatchTheDaily/videos".toHttpUrlOrNull()!!
-    var monLiveDataListTraining : LiveData<List<Training>> = MutableLiveData()//[Training(training_id=1, name=vttDelete)]
+    lateinit var ListTraining : List<Training>
     var monString = readResourceAsString("training.json")
     var monTraining : Training = Training(training_id=1, name="vttDelete")
     var monClient = OkHttpClient()
@@ -49,8 +49,8 @@ class TrainingRepositoryTest {
         subject = TrainingRepository(local, remote)
       TrainingRepository(local, remote)
         runBlocking {
-           monLiveDataListTraining = MutableLiveData(listOf(Training(training_id=1, name="Foot")))
-            mockReturn(local.getAllTraining(),monLiveDataListTraining)
+           ListTraining = listOf(Training(training_id=1, name="Foot"))
+            mockReturn(local.getAllTraining(),ListTraining)
             mockReturn(remote.FetchTraining(monClient,baseUrl), monString)
             mockReturn(local.updateInsert(monTraining), 1)
             mockReturn(local.delete(monTraining), 1)
@@ -60,7 +60,7 @@ class TrainingRepositoryTest {
     }
     @Test
      fun localGetAllTraining() = runBlockingTest {
-        Assert.assertEquals(monLiveDataListTraining,subject.getLocalTraining())
+        Assert.assertEquals(ListTraining,subject.getLocalTraining())
         verify(local).getAllTraining()
     }
     @Test

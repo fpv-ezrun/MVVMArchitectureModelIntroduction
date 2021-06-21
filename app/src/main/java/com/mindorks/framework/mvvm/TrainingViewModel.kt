@@ -28,12 +28,9 @@ class TrainingViewModel : ViewModel() {
 
         MutableLiveData<String>()
     }
-
     var TmpString = ""
     lateinit var TmpTraining : Training
-    /*lateinit var local : TrainingDao
-    lateinit var remote : TrainingServices
-    var repository : TrainingRepository = TrainingRepository(local,remote)*/
+
 
 
     //Initialisation de la base de données
@@ -45,17 +42,6 @@ class TrainingViewModel : ViewModel() {
 
     //setter
 
-     fun  setTmpTrainingString(value:String){
-        TmpString = value
-        TmpTrainingString.value = value
-    }
-
-     fun setTrainingListTraining(InsertTraining:Training,index:Int){
-       // TmpTraining = InsertTraining
-        ListTraining.value?.get(index)?.training_id = InsertTraining.training_id
-        ListTraining.value?.get(index)?.name = InsertTraining.name
-         print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Insertion du training avec :"+ListTraining.value?.get(index)?.training_id+"index "+index+">>>>>>>>>>>>>>>>>>>")
-    }
 
     suspend fun setLocalTrainingFromRepository(InsertTraining: Training){
         repository.insertUpdate(InsertTraining)
@@ -63,14 +49,6 @@ class TrainingViewModel : ViewModel() {
     }
 
 
- /*   suspend fun setTrainingLocal(Training:Training){
-        repository.insertUpdate(Training)
-    }
-
-    suspend fun deleteLocalTraining(Training: Training){
-        repository.delete(Training)
-    }
-*/
 
 
 
@@ -89,23 +67,13 @@ class TrainingViewModel : ViewModel() {
         return ListTraining.value?.get(index)
     }
 
-    fun getLocalTrainingsFromRepository(): LiveData<List<Training>> {
+    suspend fun getLocalTrainingsFromRepository(): List<Training> {
 
         return repository.getLocalTraining()
     }
-    /*suspend fun getListTrainingLocal(): LiveData<List<Training>> {
-            return repository.getLocalTraining()
-            //return repository.getTrainingFromWeb(OkHttpClient(),Urlremote)
-    }
-    suspend fun getListTrainingFromWeb(urlApi: HttpUrl): String { //TODO Parser le json(String) pour créer un livedata<list<training>>
-        return repository.getTrainingFromWeb(OkHttpClient(), urlApi)
-    }*/
 
 
-    //lateinit var local: TrainingDao
-    //lateinit var remote: TrainingServices
 
-  //  var myrepository: TrainingRepository = TrainingRepository(local, remote);
 
 
    /////////////////////////////////OLD//////////////////////////////////////
