@@ -7,9 +7,51 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/delete_title_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="20dp"
+        android:text="Id du Training:"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+    <EditText
+        android:layout_below="@+id/delete_title_id"
+        android:id="@+id/deleteIdTraining"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Third Fragment" />
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="10dp"
+        android:inputType="number"
+        android:hint="Id du Training"/>
+
+
+    <Button
+
+        android:id="@+id/buttonSupprimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:layout_marginLeft="50dp"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="0dp"
+        android:background = "@drawable/roundedbutton"
+        android:text="Supprimer le Training"
+        android:textColor="@android:color/white"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/title_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginLeft="60dp"
+        android:layout_marginBottom="20dp"
+        android:text="Saisir un Training a supprimer :"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
 
 </FrameLayout>

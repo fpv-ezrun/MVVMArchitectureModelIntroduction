@@ -26,4 +26,8 @@ class TrainingRepository (private val local: TrainingDao, private val remote: Tr
         return local.delete(training)
     }
 
+    suspend fun getTrainingById(trainingId:Int): Training {
+        return local.gettrainingid(trainingId)
+    }
+
 }

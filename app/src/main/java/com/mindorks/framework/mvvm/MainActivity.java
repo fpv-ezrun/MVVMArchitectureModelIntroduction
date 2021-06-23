@@ -62,10 +62,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Continuation<?super Long> TmpLong;
     Continuation<? super Unit> TmpUnit;
     Continuation<? super List<? extends Training>> TmpList;
+    Continuation<? super Training> TmpTraining;
     List<Training> TmpListTraining ;
+    Training TrainingDelete;
     int Oldnumber;
     int cptTraining = 0;
     AppDatabase database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +83,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Snackbar SnackbarError = Snackbar.make(pager2,"Saisir un Training Valide !!!",2000); //initialisation des messages erreurs saisie
         Snackbar SnackbarValide = Snackbar.make(pager2,"Enregistrement du Training Réussi !!!",2000);//initialisation des messages d'enregistrement
         Snackbar SnackbarUpdate = Snackbar.make(pager2,"Rien a mettre a jour !!!",2000);
-        Snackbar SnackbarSame = Snackbar.make(pager2,"Ce Training existe deja en db !!!",2000);
+        Snackbar SnackbarSame = Snackbar.make(pager2,"Ce Training existe deja en db !!!, MaJ du Training",2000);
+        Snackbar SnackbarIDDelete = Snackbar.make(pager2,"l'id n'existe pas !!!",2000);
         tabLayout = findViewById(R.id.tab_layout);
         database = Room.inMemoryDatabaseBuilder(getApplicationContext(),AppDatabase.class).allowMainThreadQueries().build();//initialisation de la db en local //TODO le refactoriser dans une classe d'initialisation
         System.out.println("Database initialisée, nom de la db : database");
@@ -93,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         tabLayout.addTab(tabLayout.newTab().setText("Insert Trainings"));
         tabLayout.addTab(tabLayout.newTab().setText("View Trainings"));
-        tabLayout.addTab(tabLayout.newTab().setText("Others"));
+        tabLayout.addTab(tabLayout.newTab().setText("Delete Trainings"));
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -125,26 +129,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
            final TextView fourth_Training = (TextView) findViewById(R.id.fourth_training);
            final TextView fifth_Training = (TextView) findViewById(R.id.fifth_training);
            final Button update = (Button) findViewById(R.id.update_training);
+           final Button delete = (Button) findViewById(R.id.buttonSupprimer);
+           final EditText idDelete = (EditText) findViewById(R.id.deleteIdTraining);
            if (update!=null){
                update.setOnClickListener(new View.OnClickListener() {
                    @Override
                    public void onClick(View v) {
                        if(model.TmpTraining!=null || TmpListTraining!=null) {
-                           if(TmpListTraining.get(0)!=null) {
+                           if(TmpListTraining.size()>=1) {
                                //System.out.println("attention au bug "+ TmpListTraining.size()+"\n");
                                FirstTraining.setText("- id: " + TmpListTraining.get(TmpListTraining.size()-1).getTraining_id() + " name: " + TmpListTraining.get(TmpListTraining.size()-1).getName());
+                           }else {
+                               FirstTraining.setText("");
                            }
                            if(TmpListTraining.size()>=2) {
                                second_Training.setText("- id: " + TmpListTraining.get(TmpListTraining.size()-2).getTraining_id() + " name: " + TmpListTraining.get(TmpListTraining.size()-2).getName());
+                           }else {
+                               second_Training.setText("");
                            }
                            if(TmpListTraining.size()>=3) {
                                third_Training.setText("- id: " + TmpListTraining.get(TmpListTraining.size()-3).getTraining_id() + " name: " + TmpListTraining.get(TmpListTraining.size()-3).getName());
+                           }else {
+                               third_Training.setText("");
                            }
                            if(TmpListTraining.size()>=4) {
                                fourth_Training.setText("- id: " + TmpListTraining.get(TmpListTraining.size()-4).getTraining_id() + " name: " + TmpListTraining.get(TmpListTraining.size()-4).getName());
+                           }else {
+                               fourth_Training.setText("");
                            }
                            if(TmpListTraining.size()>=5) {
                                fifth_Training.setText("- id: " + TmpListTraining.get(TmpListTraining.size()-5).getTraining_id() + " name: " + TmpListTraining.get(TmpListTraining.size()-5).getName());
+                           }else {
+                               fifth_Training.setText("");
                            }
                            if(TmpListTraining!=null) {
                                if (TmpListTraining.size() != Oldnumber) {
@@ -154,6 +170,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                            }
                        }else {
                            SnackbarUpdate.show();
+                       }
+                   }
+               });
+           }
+           if (delete!=null){
+               delete.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View v) {
+                       if(idDelete.getText().toString()!=null){
+                           System.out.println("<<<<<<<<<<<<<"+idDelete.getText().toString()+">>>>>>>>>>>>>>");
+                       if(model.getLocalTrainingsByIDFromRepository(Integer.parseInt(idDelete.getText().toString()),TmpTraining)!=null){
+                           TrainingDelete= (Training) model.getLocalTrainingsByIDFromRepository(Integer.parseInt(idDelete.getText().toString()),TmpTraining);
+                           model.deleteLocalTrainingFromRepository(TrainingDelete,TmpUnit);
+                           cptTraining = TmpListTraining.size()-1;//TODO
+                           TmpListTraining= (List<Training>) model.getLocalTrainingsFromRepository(TmpList);
+                       }else {
+                           System.out.println(TmpListTraining);
+                           SnackbarIDDelete.show();
+                       }
                        }
                    }
                });

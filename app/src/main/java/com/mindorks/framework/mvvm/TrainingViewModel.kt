@@ -40,6 +40,11 @@ class TrainingViewModel : ViewModel() {
 
     }
 
+    suspend fun deleteLocalTrainingFromRepository(TrainingDelete:Training){
+        repository.delete(TrainingDelete)
+    }
+
+
     //setter
 
 
@@ -57,19 +62,13 @@ class TrainingViewModel : ViewModel() {
 
     //getter
 
-    fun getTmpTrainingString(): String {
-        return TmpTrainingString.value.toString()
-    }
-
-    fun getTrainingListTraining(index:Int): Training? {
-       // TmpTraining = ListTraining.value?.get(index)!!
-        //return TmpTraining
-        return ListTraining.value?.get(index)
-    }
-
     suspend fun getLocalTrainingsFromRepository(): List<Training> {
 
         return repository.getLocalTraining()
+    }
+
+    suspend fun getLocalTrainingsByIDFromRepository(IdTraining : Int): Training {
+        return repository.getTrainingById(IdTraining)
     }
 
 

@@ -54,6 +54,7 @@ class TrainingRepositoryTest {
             mockReturn(remote.FetchTraining(monClient,baseUrl), monString)
             mockReturn(local.updateInsert(monTraining), 1)
             mockReturn(local.delete(monTraining), 1)
+            mockReturn(local.gettrainingid(1),monTraining)
 
         }
 
@@ -78,6 +79,11 @@ class TrainingRepositoryTest {
     fun deleteTraining() = runBlockingTest{
         Assert.assertEquals(1,subject.delete(monTraining))
         verify(local).delete(monTraining)
+    }
+    @Test
+    fun getTrainingbyId() = runBlockingTest{
+        Assert.assertEquals(monTraining,subject.getTrainingById(1))
+        verify(local).gettrainingid(1)
     }
     @After
     fun close(){
