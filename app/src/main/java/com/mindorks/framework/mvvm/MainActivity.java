@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,11 +22,14 @@ import com.google.android.material.tabs.TabLayout;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+import data.daos.TrainingDao;
 import data.db.AppDatabase;
 import data.db.entities.Training;
 import data.remote.services.TrainingServices;
+import data.repository.TrainingRepository;
 import kotlin.Unit;
 import kotlin.coroutines.Continuation;
 import okhttp3.HttpUrl;
@@ -81,8 +85,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Snackbar SnackbarUpdate = Snackbar.make(pager2,"Rien a mettre a jour !!!",2000);
         Snackbar SnackbarSame = Snackbar.make(pager2,"Ce Training existe deja en db !!!, MaJ du Training",2000);
         Snackbar SnackbarIDDelete = Snackbar.make(pager2,"l'id n'existe pas !!!",2000);
-        Snackbar SnackbarIDnullDelete = Snackbar.make(pager2,"Saisir un ID !!!",2000);
-        Snackbar SnackbarIDDeleteOk = Snackbar.make(pager2,"Suppression du Training réussi !!!",2000);
         tabLayout = findViewById(R.id.tab_layout);
         database = Room.inMemoryDatabaseBuilder(getApplicationContext(),AppDatabase.class).allowMainThreadQueries().build();//initialisation de la db en local //TODO le refactoriser dans une classe d'initialisation
         System.out.println("Database initialisée, nom de la db : database");
@@ -162,7 +164,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                            }
                            if(TmpListTraining!=null) {
                                if (TmpListTraining.size() != Oldnumber) {
-                                   System.out.println("Affichage des 3, comparaison entre le premier et le dernier"+Oldnumber+cptTraining+TmpListTraining.size()+"\n");//Debug
                                    SnackbarUpdate.show();
                                }
                                Oldnumber++;
@@ -177,23 +178,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                delete.setOnClickListener(new View.OnClickListener() {
                    @Override
                    public void onClick(View v) {
-                       if(!idDelete.getText().toString().equals("")){
+                       if(idDelete.getText().toString()!=null){
                            System.out.println("<<<<<<<<<<<<<"+idDelete.getText().toString()+">>>>>>>>>>>>>>");
                        if(model.getLocalTrainingsByIDFromRepository(Integer.parseInt(idDelete.getText().toString()),TmpTraining)!=null){
                            TrainingDelete= (Training) model.getLocalTrainingsByIDFromRepository(Integer.parseInt(idDelete.getText().toString()),TmpTraining);
                            model.deleteLocalTrainingFromRepository(TrainingDelete,TmpUnit);
-                           SnackbarIDDeleteOk.show();
-                           cptTraining = TmpListTraining.size()-1;//modification pour message maj training
-                           Oldnumber = TmpListTraining.size()-1;//modification pour affichage de l'update
-                           System.out.println("cptTraining:"+cptTraining+"\n");//Debug
+                           cptTraining = TmpListTraining.size()-1;//TODO
                            TmpListTraining= (List<Training>) model.getLocalTrainingsFromRepository(TmpList);
-                           FirstTraining.setText("");
                        }else {
                            System.out.println(TmpListTraining);
                            SnackbarIDDelete.show();
                        }
-                       }else {
-                           SnackbarIDnullDelete.show();
                        }
                    }
                });
@@ -234,10 +229,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                if (TmpListTraining.size() != cptTraining) {
                                    cptTraining--;
                                    SnackbarSame.show();
-                                   System.out.println("compteur avec message:"+cptTraining+"\n");
                                } else {
                                    SnackbarValide.show();
-                                   System.out.println("compteur sans message:"+cptTraining+"\n");
                                }
 
                            } else {
@@ -252,15 +245,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
            });
 
        }
-//////////////////////////
+
        }
         });
     }
     private int getItemofviewpager(int i) {
         return pager2.getCurrentItem() + i;
-    }
-
-
+    } // TODO pour enlever le if
 
     @Override
     public void onClick(View v) {
