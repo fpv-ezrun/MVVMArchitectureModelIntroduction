@@ -23,4 +23,7 @@ interface TrainingDao {
 
     @Query("SELECT * FROM training WHERE training_id = :trainingId")
     fun gettrainingid(trainingId: Int) : Training
+
+    @Insert(onConflict=REPLACE)
+    fun updateInserttest(training: Training) : Long
 }
