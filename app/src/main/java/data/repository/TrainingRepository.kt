@@ -14,20 +14,16 @@ class TrainingRepository (private val local: TrainingDao, private val remote: Tr
         return remote.FetchTraining(client,URL)
     }
 
-    suspend fun getLocalTraining(): List<Training> {
+    fun getLocalTraining(): LiveData<List<Training>> {
         return local.getAllTraining()
     }
 
     suspend fun insertUpdate(training: Training): Long {
-       return local.updateInserttest(training)
+       return local.updateInsert(training)
     }
 
     suspend fun delete(training: Training): Int {
         return local.delete(training)
-    }
-
-    suspend fun getTrainingById(trainingId:Int): Training {
-        return local.gettrainingid(trainingId)
     }
 
 }

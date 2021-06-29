@@ -68,7 +68,7 @@ abstract class DaoTest<T : Any> {
 
     @Test //test de la fonction de récupération
     fun getTraining() = runBlockingTest {
-        val allTraining = dao.getAllTraining()
+        val allTraining = dao.getAllTraining().getOrAwaitValue()
         print(allTraining.toString() + "<<<<<<<<<<\n") //affichage de ce qu'on a recuperer
         //print(allTraining.value.toString()+"++++++++\n")
         //assertThat(allTraining.toString())
@@ -79,7 +79,7 @@ abstract class DaoTest<T : Any> {
         /* val trainingVtt = Training(2,"vtt")
         val returningValue = dao.updateInsert(trainingVtt)
         */
-        val allTraining = dao.getAllTraining()
+        val allTraining = dao.getAllTraining().getOrAwaitValue()
         // print("valeur de retour<<<$returningvalue>>>\n")
         //print(allTraining.toString()+"<<<<<<<<<<\n")
         // print(allTraining.value.toString()+"++++++++\n")
@@ -95,7 +95,7 @@ abstract class DaoTest<T : Any> {
         /*val trainingVtt = Training(1,"vttdelete")
         dao.updateInsert(trainingVtt)*/
         dao.delete(trainingVtt)
-        val allTraining = dao.getAllTraining()
+        val allTraining = dao.getAllTraining().getOrAwaitValue()
 
         assertThat(allTraining).doesNotContain(trainingVtt)
     }

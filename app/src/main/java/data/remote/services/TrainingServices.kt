@@ -8,7 +8,7 @@ import java.io.IOException
 
 interface TrainingServices {
     @Throws(IOException::class)
-   fun FetchTraining(client: OkHttpClient, base: HttpUrl): String {
+    fun FetchTraining(client: OkHttpClient, base: HttpUrl): String {
         val request = Request.Builder()
             .url(base)
             .build()
