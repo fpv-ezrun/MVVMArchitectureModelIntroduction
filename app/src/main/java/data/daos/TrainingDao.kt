@@ -18,9 +18,12 @@ interface TrainingDao {
     fun delete(training: Training) : Int
 
     @Query("SELECT * FROM training")
-    fun getAllTraining(): LiveData<List<Training>>
+    fun getAllTraining(): List<Training>
 
 
     @Query("SELECT * FROM training WHERE training_id = :trainingId")
-    fun gettrainingid(trainingId: Int) : LiveData<Training>
+    fun gettrainingid(trainingId: Int) : Training
+
+    @Insert(onConflict=REPLACE)
+    fun updateInserttest(training: Training) : Long
 }
