@@ -18,13 +18,9 @@ interface TrainingDao {
     fun delete(training: Training) : Int
 
     @Query("SELECT * FROM training")
-    fun getAllTraining(): LiveData<List<Training>>
+    fun getAllTraining(): List<Training>
 
 
     @Query("SELECT * FROM training WHERE training_id = :trainingId")
-<<<<<<< HEAD
     fun gettrainingid(trainingId: Int) : Training
-=======
-    fun gettrainingid(trainingId: Int) : LiveData<Training>
->>>>>>> parent of 108e3f8 (with ui)
 }
