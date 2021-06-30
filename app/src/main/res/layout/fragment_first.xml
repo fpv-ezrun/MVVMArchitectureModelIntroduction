@@ -5,73 +5,87 @@
     android:layout_height="match_parent"
     tools:context=".FirstFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/title_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="20dp"
-        android:text="Id du Training:"
-        android:textColor="@android:color/black"
-        android:textSize="20sp" />
-    <EditText
-        android:layout_below="@+id/title_id"
-        android:id="@+id/IdTraining"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="10dp"
-        android:inputType="number"
-        android:hint="Id du Training"/>
-    <TextView
-        android:id="@+id/title_training"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="170dp"
-        android:layout_marginBottom="20dp"
-        android:text="Titre du Training:"
-        android:textColor="@android:color/black"
-        android:textSize="20sp" />
-    <EditText
-        android:layout_below="@+id/title_id"
-        android:id="@+id/TitreTraining"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="220dp"
-        android:layout_marginEnd="10dp"
-        android:inputType="text"
-        android:hint="Titre du Training" />
-    <Button
+        android:layout_height="match_parent">
 
-        android:id="@+id/buttonChercher"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="300dp"
-        android:layout_marginLeft="60dp"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="0dp"
-        android:background = "@drawable/roundedbutton"
-        android:text="Ajouter le Training"
-        android:textColor="@android:color/white"
-        android:textSize="20sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/title_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+            <!-- TODO: Update blank fragment layout -->
+            <TextView
+                android:id="@+id/title_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
-        android:layout_marginLeft="60dp"
-        android:layout_marginBottom="20dp"
-        android:text="Saisir un Training a enregistrer :"
-        android:textColor="@android:color/black"
-        android:textSize="20sp" />
+                android:layout_marginLeft="60dp"
+                android:layout_marginBottom="20dp"
+                android:text="Saisir un Training a enregistrer :"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/title_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="Id du Training:"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/IdTraining"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title_id"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:hint="Id du Training"
+                android:inputType="number" />
+
+            <TextView
+                android:id="@+id/title_training"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="20dp"
+                android:text="Titre du Training:"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/TitreTraining"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title_id"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:hint="Titre du Training"
+                android:inputType="text" />
+
+            <Button
+
+                android:id="@+id/buttonChercher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="65dp"
+                android:layout_marginBottom="0dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:background="@drawable/roundedbutton"
+                android:text="Ajouter le Training"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+    </ScrollView>
 
 
 </FrameLayout>

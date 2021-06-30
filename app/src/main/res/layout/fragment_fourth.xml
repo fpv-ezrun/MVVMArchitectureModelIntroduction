@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SecondFragment">
+    tools:context=".FourthFragment">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -12,97 +12,119 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/title_training"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"
-        android:text="Liste des Trainings:"
-        android:textColor="@android:color/black"
-        android:textSize="25sp" />
+    <!-- TODO: modifier le context -->
+        <TextView
+            android:id="@+id/title_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
-    <TextView
-        android:id="@+id/first_training"
+            android:layout_marginLeft="60dp"
+            android:layout_marginBottom="20dp"
+            android:text="Saisir un lien vers une API :"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
+        <TextView
+        android:id="@+id/delete_title_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="50dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="0dp"
-        android:text="                     Pas a jour                  "
+        android:layout_marginBottom="20dp"
+        android:text="URL du lien :"
         android:textColor="@android:color/black"
-        android:textSize="25sp" />
-    <TextView
-        android:id="@+id/second_training"
-        android:layout_width="wrap_content"
+        android:textSize="20sp" />
+    <EditText
+        android:id="@+id/UrlApi"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
         android:layout_marginTop="0dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="0dp"
-        android:text="                                     "
-        android:textColor="@android:color/black"
-        android:textSize="25sp" />
-    <TextView
-        android:id="@+id/third_training"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="0dp"
-        android:text="                                     "
-        android:textColor="@android:color/black"
-        android:textSize="25sp" />
-    <TextView
-        android:id="@+id/fourth_training"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="0dp"
-        android:text="                                     "
-        android:textColor="@android:color/black"
-        android:textSize="25sp" />
-    <TextView
-        android:id="@+id/fifth_training"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="0dp"
-        android:text="                                     "
-        android:textColor="@android:color/black"
-        android:textSize="25sp" />
+        android:inputType="text"
+        android:hint="lien vers API, ex: https://monAPI.com"/>
+
+
     <Button
 
-        android:id="@+id/update_training"
+        android:id="@+id/buttonGetFromWeb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="80dp"
         android:layout_gravity="center_vertical|center_horizontal"
         android:layout_centerInParent="true"
         android:layout_marginBottom="0dp"
         android:background = "@drawable/roundedbutton"
-        android:text="Update"
+        android:text="Recuperer les Trainings"
         android:textColor="@android:color/white"
         android:textSize="20sp" />
+
+        <TextView
+        android:id="@+id/first_training_web"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="0dp"
+        android:text="             Pas encore recuperé                  "
+        android:textColor="@android:color/black"
+        android:textSize="25sp" />
+    <TextView
+        android:id="@+id/second_training_web"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="0dp"
+        android:text="                                     "
+        android:textColor="@android:color/black"
+        android:textSize="25sp" />
+    <TextView
+        android:id="@+id/third_training_web"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="0dp"
+        android:text="                                     "
+        android:textColor="@android:color/black"
+        android:textSize="25sp" />
+    <TextView
+        android:id="@+id/fourth_training_web"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="0dp"
+        android:text="                                     "
+        android:textColor="@android:color/black"
+        android:textSize="25sp" />
+    <TextView
+        android:id="@+id/fifth_training_web"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="0dp"
+        android:text="                                     "
+        android:textColor="@android:color/black"
+        android:textSize="25sp" />
     </LinearLayout>
     </ScrollView>
 

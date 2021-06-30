@@ -83,6 +83,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Snackbar SnackbarIDDelete = Snackbar.make(pager2,"l'id n'existe pas !!!",2000);
         Snackbar SnackbarIDnullDelete = Snackbar.make(pager2,"Saisir un ID !!!",2000);
         Snackbar SnackbarIDDeleteOk = Snackbar.make(pager2,"Suppression du Training réussi !!!",2000);
+        Snackbar SnackbarDeleteButton = Snackbar.make(pager2,"Récuperation en cour, merci de patienter",5000);
+        Snackbar SnackbarUrlWeb = Snackbar.make(pager2, "Url vide, saisir un url correct", 2000);
         tabLayout = findViewById(R.id.tab_layout);
         database = Room.inMemoryDatabaseBuilder(getApplicationContext(),AppDatabase.class).allowMainThreadQueries().build();//initialisation de la db en local //TODO le refactoriser dans une classe d'initialisation
         System.out.println("Database initialisée, nom de la db : database");
@@ -96,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tabLayout.addTab(tabLayout.newTab().setText("Insert Trainings"));
         tabLayout.addTab(tabLayout.newTab().setText("View Trainings"));
         tabLayout.addTab(tabLayout.newTab().setText("Delete Trainings"));
+        tabLayout.addTab(tabLayout.newTab().setText("Trainings From Web"));
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -128,7 +131,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
            final TextView fifth_Training = (TextView) findViewById(R.id.fifth_training);
            final Button update = (Button) findViewById(R.id.update_training);
            final Button delete = (Button) findViewById(R.id.buttonSupprimer);
+           final Button getFromWeb = (Button) findViewById(R.id.buttonGetFromWeb);
            final EditText idDelete = (EditText) findViewById(R.id.deleteIdTraining);
+           final EditText UrlApi = (EditText) findViewById(R.id.UrlApi);
+           if(getFromWeb!=null){
+               getFromWeb.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View v) {
+                       if(!UrlApi.getText().toString().equals("")) {
+                           SnackbarDeleteButton.show();
+                       }else {
+                           SnackbarUrlWeb.show();
+                       }
+                   }
+               });
+           }
            if (update!=null){
                update.setOnClickListener(new View.OnClickListener() {
                    @Override
@@ -187,7 +204,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                            Oldnumber = TmpListTraining.size()-1;//modification pour affichage de l'update
                            System.out.println("cptTraining:"+cptTraining+"\n");//Debug
                            TmpListTraining= (List<Training>) model.getLocalTrainingsFromRepository(TmpList);
-                           FirstTraining.setText("");
                        }else {
                            System.out.println(TmpListTraining);
                            SnackbarIDDelete.show();
@@ -252,7 +268,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
            });
 
        }
-//////////////////////////
        }
         });
     }

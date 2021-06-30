@@ -1,12 +1,10 @@
 [
   {
-    "trainingId": "d7f1d826-1f86-409d-96e6-c58f893ce3b6",
-    "date": "2021-05-11T11:00:00.000Z",
-    "label": "Morning Training"
+    "training_id": "1",
+    "name": "Morning Training"
   },
   {
-    "trainingId": "beaf5f8c-a347-4ff8-9ca4-ec3fb6c7f9bf",
-    "date": "2021-05-11T15:00:00.000Z",
-    "label": "Afternoon Training"
+    "training_id": "2",
+    "name": "Afternoon Training"
   }
 ]

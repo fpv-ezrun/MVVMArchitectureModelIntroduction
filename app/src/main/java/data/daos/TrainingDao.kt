@@ -20,7 +20,6 @@ interface TrainingDao {
     @Query("SELECT * FROM training")
     fun getAllTraining(): List<Training>
 
-
     @Query("SELECT * FROM training WHERE training_id = :trainingId")
     fun gettrainingid(trainingId: Int) : Training
 

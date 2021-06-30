@@ -24,12 +24,15 @@ public class FragmentAdapter extends FragmentStateAdapter {
                 return new SecondFragment();
             case 2 :
                 return new ThirdFragment();
+            case 3 :
+                return new FourthFragment();
+
         }
         return new FirstFragment();
     }
 
     @Override
     public int getItemCount() {
-        return 3;
+        return 4;
     }
 }
