@@ -24,21 +24,17 @@ interface TrainingServices {
     fun FetchTrainingtoList(client: OkHttpClient, base: HttpUrl): List<Training>{
         val obj = JSONObject("{trainings : "+FetchTraining(client, base)+"}")
         val TrainingArray : JSONArray = obj.getJSONArray("trainings")
-        var monTraining : Training = Training(training_id=0, name="vttDelete")
         var Maliste : List<Training> = mutableListOf()
         val NamesTrainings : ArrayList<String> = ArrayList()
         val IdTrainings : ArrayList<Int> = ArrayList()
-        var cpt: Int = 0
         for (j in 0 until TrainingArray.length()){
             val TrainingDetail: JSONObject = TrainingArray.getJSONObject(j)
             NamesTrainings.add(TrainingDetail.getString("name"))
             println("+++++++"+TrainingDetail.toString()+"\n")
             IdTrainings.add(TrainingDetail.getInt("id"))
-            monTraining.training_id=IdTrainings[cpt]
-            monTraining.name=NamesTrainings[cpt]
+            var monTraining : Training = Training(IdTrainings[j],NamesTrainings[j])
             Maliste+=monTraining
             println(Maliste)
-            cpt++
             //Maliste.toMutableList()[j].name=NamesTrainings[j]
             //Maliste.toMutableList()[j].training_id=IdTrainings[j]
         }
