@@ -10,12 +10,12 @@ import okhttp3.OkHttpClient
 class TrainingRepository (private val local: TrainingDao, private val remote: TrainingServices){
 //    val localTrainings = local.getAllTraining()
 
-    suspend fun getTrainingFromWeb(client: OkHttpClient,URL: HttpUrl): String {
-        return remote.FetchTraining(client,URL)
-    }
-
-    suspend fun getLocalTraining(): List<Training> {
-        return local.getAllTraining()
+    suspend fun getTraining(forceUpdate: Boolean, URL: HttpUrl = HttpUrl.get("http://localhost:3000/trainings")!!): List<Training> {
+        return if(forceUpdate){
+            remote.FetchTrainingtoList(OkHttpClient(),URL)
+        }else{
+            local.getAllTraining()
+        }
     }
 
     suspend fun insertUpdate(training: Training): Long {
@@ -29,5 +29,14 @@ class TrainingRepository (private val local: TrainingDao, private val remote: Tr
     suspend fun getTrainingById(trainingId:Int): Training {
         return local.gettrainingid(trainingId)
     }
+
+   /* suspend fun getTraining(client : OkHttpClient,Url: HttpUrl, boolean: Boolean): List<Training> {
+        if (boolean) {
+            getTrainingFromWeb(client, Url)
+        } else {
+            return getLocalTraining()
+        }
+
+    }*/
 
 }

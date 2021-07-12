@@ -1,4 +1,4 @@
-package com.mindorks.framework.mvvm.remote.services
+ package com.mindorks.framework.mvvm.remote.services
 
 import com.mindorks.framework.mvvm.testUtils.readResourceAsString
 import okhttp3.HttpUrl

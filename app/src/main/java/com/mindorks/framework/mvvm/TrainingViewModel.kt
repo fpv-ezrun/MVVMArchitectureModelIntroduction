@@ -63,8 +63,8 @@ class TrainingViewModel : ViewModel() {
     //getter
 
     suspend fun getLocalTrainingsFromRepository(): List<Training> {
-
-        return repository.getLocalTraining()
+       // return repository.getLocalTraining()
+        return repository.getTraining(false)
     }
 
     suspend fun getLocalTrainingsByIDFromRepository(IdTraining : Int): Training {

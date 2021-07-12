@@ -36,6 +36,15 @@ class TrainingServiceTest : TrainingServices {
         Assert.assertEquals(maString,FetchTraining(OkHttpClient(), baseUrl))
     }
 
+    @Test
+    fun testtoList(){
+        val listTraining: List<Training>
+        val testTraining: Training = Training(3, "training 3")
+        listTraining=FetchTrainingtoList(OkHttpClient(),baseUrl)
+        assert(listTraining.contains(testTraining))
+        println("resultat "+listTraining.toString()+"resultat "+"\n")
+    }
+
    /* @Test
     fun assertReadJson(){
         var ListTraining : ArrayList<Training>

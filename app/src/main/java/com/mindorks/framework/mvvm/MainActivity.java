@@ -45,6 +45,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TrainingServices remote = new TrainingServices() {
         @NotNull
         @Override
+        public List<Training> FetchTrainingtoList(@NotNull OkHttpClient client, @NotNull HttpUrl base) {
+            return null;
+        }
+
+        @NotNull
+        @Override
         public String TestFetch(@NotNull String String) {
             return null;
         }

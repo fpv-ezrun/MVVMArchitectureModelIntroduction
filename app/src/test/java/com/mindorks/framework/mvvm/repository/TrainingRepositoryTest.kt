@@ -61,12 +61,12 @@ class TrainingRepositoryTest {
     }
     @Test
      fun localGetAllTraining() = runBlockingTest {
-        Assert.assertEquals(ListTraining,subject.getLocalTraining())
+        Assert.assertEquals(ListTraining,subject.getTraining(false))
         verify(local).getAllTraining()
     }
     @Test
     fun remoteGetAllTraining() = runBlockingTest{
-        Assert.assertEquals(monString,subject.getTrainingFromWeb(monClient,baseUrl))
+        Assert.assertEquals(monString,subject.getTraining(true,baseUrl))
         verify(remote).FetchTraining(monClient,baseUrl)
     }
     @Test
