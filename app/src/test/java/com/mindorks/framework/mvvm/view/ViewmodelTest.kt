@@ -1,18 +1,12 @@
 package com.mindorks.framework.mvvm.view
 
-import com.google.gson.JsonObject
-import com.google.gson.JsonParser
 import com.mindorks.framework.mvvm.TrainingViewModel
-import com.mindorks.framework.mvvm.testUtils.readResourceAsString
 import com.nhaarman.mockitokotlin2.whenever
 import data.daos.TrainingDao
 import data.db.entities.Training
-import data.remote.services.TrainingServices
+import data.remote.services.TrainingServicesinter
 import data.repository.TrainingRepository
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
-import org.json.JSONArray
-import org.json.JSONObject
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
@@ -24,7 +18,7 @@ class ViewmodelTest {
     lateinit var repository: TrainingRepository
 
     @Mock
-    lateinit var remote: TrainingServices
+    lateinit var remote: TrainingServicesinter
 
     @Mock
     lateinit var local: TrainingDao

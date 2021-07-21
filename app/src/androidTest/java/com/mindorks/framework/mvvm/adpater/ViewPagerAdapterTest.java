@@ -34,7 +34,7 @@ public class ViewPagerAdapterTest extends AppCompatActivity {
     @Test
     public void getCount() {
         {
-            assert adapter!=null;
+            assert(adapter.getItemCount()==0);
 
         }
     }

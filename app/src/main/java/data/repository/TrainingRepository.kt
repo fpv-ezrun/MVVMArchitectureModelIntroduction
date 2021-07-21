@@ -1,18 +1,18 @@
 package data.repository
 
-import androidx.lifecycle.LiveData
 import data.daos.TrainingDao
 import data.db.entities.Training
 import data.remote.services.TrainingServices
 import okhttp3.HttpUrl
-import okhttp3.OkHttpClient
+import okhttp3.HttpUrl.Companion.toHttpUrl
 
-class TrainingRepository (private val local: TrainingDao, private val remote: TrainingServices){
+class TrainingRepository(private val local: TrainingDao, private val remote: TrainingServices){
 //    val localTrainings = local.getAllTraining()
 
-    suspend fun getTraining(forceUpdate: Boolean, URL: HttpUrl = HttpUrl.get("http://localhost:3000/trainings")!!): List<Training> {
+    suspend fun getTraining(forceUpdate: Boolean, URL: HttpUrl = "http://localhost:3000/trainings".toHttpUrl()): List<Training> {
         return if(forceUpdate){
-            remote.FetchTrainingtoList(OkHttpClient(),URL)
+            println("lien de recherche: "+ "http://localhost:3000/trainings".toHttpUrl() +"\n")
+            remote.FetchTrainingtoList(URL)
         }else{
             local.getAllTraining()
         }

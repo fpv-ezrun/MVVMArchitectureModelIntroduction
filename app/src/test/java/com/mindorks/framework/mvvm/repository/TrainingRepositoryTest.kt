@@ -1,13 +1,11 @@
 package com.mindorks.framework.mvvm.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.mindorks.framework.mvvm.testUtils.mockReturn
 import com.mindorks.framework.mvvm.testUtils.readResourceAsString
 import com.nhaarman.mockitokotlin2.verify
 import data.daos.TrainingDao
 import data.db.entities.Training
-import data.remote.services.TrainingServices
+import data.remote.services.TrainingServicesinter
 import data.repository.TrainingRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -15,7 +13,6 @@ import kotlinx.coroutines.test.runBlockingTest
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.OkHttpClient
-import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Assert
@@ -35,7 +32,7 @@ class TrainingRepositoryTest {
     private lateinit var subject: TrainingRepository
 
     @Mock
-    lateinit var remote: TrainingServices
+    lateinit var remote: TrainingServicesinter
     @Mock
     lateinit var local: TrainingDao
 

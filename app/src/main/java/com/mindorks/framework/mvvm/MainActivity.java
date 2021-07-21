@@ -1,6 +1,7 @@
 package com.mindorks.framework.mvvm;
 
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,9 +19,6 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.io.IOException;
 import java.util.List;
 
 import data.db.AppDatabase;
@@ -29,8 +27,6 @@ import data.remote.services.TrainingServices;
 import kotlin.Unit;
 import kotlin.coroutines.Continuation;
 import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
-
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -42,30 +38,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText EditString;
     TextView MonText;
     Training MyTmpTraining;
-    TrainingServices remote = new TrainingServices() {
-        @NotNull
-        @Override
-        public List<Training> FetchTrainingtoList(@NotNull OkHttpClient client, @NotNull HttpUrl base) {
-            return null;
-        }
-
-        @NotNull
-        @Override
-        public String TestFetch(@NotNull String String) {
-            return null;
-        }
-
-        @NotNull
-        @Override
-        public String FetchTraining(@NotNull OkHttpClient client, @NotNull HttpUrl base) throws IOException {
-            return null; //TODO temporairement les webservices ne sont pas encore prix en compte par l'application
-        }
-    };
     Continuation<?super Long> TmpLong;
     Continuation<? super Unit> TmpUnit;
     Continuation<? super List<? extends Training>> TmpList;
     Continuation<? super Training> TmpTraining;
     List<Training> TmpListTraining ;
+    List<Training> ListwebTraining ;
     Training TrainingDelete;
     int Oldnumber;
     int cptTraining = 0;
@@ -91,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Snackbar SnackbarIDDeleteOk = Snackbar.make(pager2,"Suppression du Training réussi !!!",2000);
         Snackbar SnackbarDeleteButton = Snackbar.make(pager2,"Récuperation en cour, merci de patienter",5000);
         Snackbar SnackbarUrlWeb = Snackbar.make(pager2, "Url vide, saisir un url correct", 2000);
+        Snackbar SnackbarUrlWebinvalid = Snackbar.make(pager2,"Url invalid, reesayer ",2000);
         tabLayout = findViewById(R.id.tab_layout);
         database = Room.inMemoryDatabaseBuilder(getApplicationContext(),AppDatabase.class).allowMainThreadQueries().build();//initialisation de la db en local //TODO le refactoriser dans une classe d'initialisation
         System.out.println("Database initialisée, nom de la db : database");
@@ -99,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FragmentManager fm = getSupportFragmentManager();
         adapter = new FragmentAdapter(fm, getLifecycle());
         pager2.setAdapter(adapter);
-        model.init(database.getTrainingDao(),remote);
+        model.init(database.getTrainingDao());
 
         tabLayout.addTab(tabLayout.newTab().setText("Insert Trainings"));
         tabLayout.addTab(tabLayout.newTab().setText("View Trainings"));
@@ -140,7 +119,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
            final Button getFromWeb = (Button) findViewById(R.id.buttonGetFromWeb);
            final EditText idDelete = (EditText) findViewById(R.id.deleteIdTraining);
            final EditText UrlApi = (EditText) findViewById(R.id.UrlApi);
-           if(getFromWeb!=null){
+           final TextView FirstTrainingweb = (TextView) findViewById(R.id.first_training_web);
+           final TextView second_Trainingweb = (TextView) findViewById(R.id.second_training_web);
+           final TextView third_Trainingweb = (TextView) findViewById(R.id.third_training_web);
+           final TextView fourth_Trainingweb = (TextView) findViewById(R.id.fourth_training_web);
+           final TextView fifth_Trainingweb = (TextView) findViewById(R.id.fifth_training_web);
+           /*if(getFromWeb!=null){
                getFromWeb.setOnClickListener(new View.OnClickListener() {
                    @Override
                    public void onClick(View v) {
@@ -148,6 +132,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                            SnackbarDeleteButton.show();
                        }else {
                            SnackbarUrlWeb.show();
+                       }
+                   }
+               });
+           }*/
+           if (getFromWeb!=null){
+               getFromWeb.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View v) {
+                       if (android.os.Build.VERSION.SDK_INT > 9) {
+                           StrictMode.ThreadPolicy policy =
+                                   new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                           StrictMode.setThreadPolicy(policy);
+                       }
+                       System.out.println("demande de recuperation des trainings depuis une api sur le lien suivant:" + UrlApi.getText() + "\n");
+                       if (UrlApi.getText().toString().contains("http")) {
+                           ListwebTraining = (List<Training>) model.getTrainings(true, HttpUrl.get(UrlApi.getText().toString()), TmpList);
+                           if (ListwebTraining != null) {
+                               if (ListwebTraining.size() >= 1) {
+                                   System.out.println("attention au bug " + ListwebTraining.size() + "\n");
+                                   FirstTrainingweb.setText("- id: " + ListwebTraining.get(ListwebTraining.size() - 1).getTraining_id() + " name: " + ListwebTraining.get(ListwebTraining.size() - 1).getName());
+                               } else {
+                                   FirstTrainingweb.setText("");
+                               }
+                               if (ListwebTraining.size() >= 2) {
+                                   second_Trainingweb.setText("- id: " + ListwebTraining.get(ListwebTraining.size() - 2).getTraining_id() + " name: " + ListwebTraining.get(ListwebTraining.size() - 2).getName());
+                               } else {
+                                   second_Trainingweb.setText("");
+                               }
+                               if (ListwebTraining.size() >= 3) {
+                                   third_Trainingweb.setText("- id: " + ListwebTraining.get(ListwebTraining.size() - 3).getTraining_id() + " name: " + ListwebTraining.get(ListwebTraining.size() - 3).getName());
+                               } else {
+                                   third_Trainingweb.setText("");
+                               }
+                               if (ListwebTraining.size() >= 4) {
+                                   fourth_Trainingweb.setText("- id: " + ListwebTraining.get(ListwebTraining.size() - 4).getTraining_id() + " name: " + ListwebTraining.get(ListwebTraining.size() - 4).getName());
+                               } else {
+                                   fourth_Trainingweb.setText("");
+                               }
+                               if (ListwebTraining.size() >= 5) {
+                                   fifth_Trainingweb.setText("- id: " + ListwebTraining.get(ListwebTraining.size() - 5).getTraining_id() + " name: " + ListwebTraining.get(ListwebTraining.size() - 5).getName());
+                               } else {
+                                   fifth_Trainingweb.setText("");
+                               }
+                           }
+                       }else{
+                           SnackbarUrlWebinvalid.show();
                        }
                    }
                });
@@ -209,7 +239,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                            cptTraining = TmpListTraining.size()-1;//modification pour message maj training
                            Oldnumber = TmpListTraining.size()-1;//modification pour affichage de l'update
                            System.out.println("cptTraining:"+cptTraining+"\n");//Debug
-                           TmpListTraining= (List<Training>) model.getLocalTrainingsFromRepository(TmpList);
+                           TmpListTraining= (List<Training>) model.getTrainings(false,HttpUrl.get("http://localhost:3000/trainings"),TmpList);
                        }else {
                            System.out.println(TmpListTraining);
                            SnackbarIDDelete.show();
@@ -242,8 +272,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                               // System.out.println("Résultat du Livedata:"+TmpListTraining.get(0));
                                 //model.setTrainingListTraining(MyTmpTraining,cptTraining);
                                 model.setLocalTrainingFromRepository(MyTmpTraining,TmpUnit);
-                                System.out.println("\nObserve"+model.getLocalTrainingsFromRepository(TmpList)+"\n");
-                               TmpListTraining= (List<Training>) model.getLocalTrainingsFromRepository(TmpList);
+                                System.out.println("\nObserve"+model.getTrainings(false,HttpUrl.get("http://localhost:3000/trainings"),TmpList)+"\n");
+                               TmpListTraining= (List<Training>) model.getTrainings(false,HttpUrl.get("http://localhost:3000/trainings"),TmpList);
                                System.out.println(TmpListTraining.get(0));
                                 cptTraining++;
                                System.out.println("Valeur du compteur des trainings : "+cptTraining);

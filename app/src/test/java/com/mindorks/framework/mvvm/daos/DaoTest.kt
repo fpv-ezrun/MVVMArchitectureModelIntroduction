@@ -6,6 +6,8 @@ import androidx.test.core.app.ApplicationProvider
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.google.common.truth.Truth.assertThat
 //import com.sun.tools.javac.util.DefinedBy.Api
 import data.daos.TrainingDao
@@ -107,8 +109,8 @@ abstract class DaoTest<T : Any> {
     }
 }
 
-/*
-    @Test //test de la fonction de suppression
+
+   /* @Test //test de la fonction de suppression
     fun testApi()= runBlockingTest {
         val queue = Volley.newRequestQueue(ApplicationProvider.getApplicationContext())
         //val url = "localhost:3000/trainings"
@@ -128,8 +130,8 @@ abstract class DaoTest<T : Any> {
         print("après request api :"+stringRequest+"\n")
 // Add the request to the RequestQueue.
         queue.add(stringRequest)
-}
-     //@Test
+}*/
+/*     @Test
      fun main() {
          print("\n")
          val url = "localhost:3000/trainings"
@@ -146,7 +148,7 @@ abstract class DaoTest<T : Any> {
 
          print(jsonObjectRequest.toString())
 
-    }
-*/
+    }*/
+
      // Instantiate the RequestQueue.
 

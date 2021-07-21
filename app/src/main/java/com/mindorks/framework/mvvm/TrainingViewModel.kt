@@ -1,18 +1,13 @@
 package com.mindorks.framework.mvvm
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.room.Room
 import data.daos.TrainingDao
-import data.db.AppDatabase
 import data.db.entities.Training
 import data.remote.services.TrainingServices
 import data.repository.TrainingRepository
 import okhttp3.HttpUrl
-import okhttp3.OkHttpClient
-import retrofit2.http.Url
-import java.net.URL
+import okhttp3.HttpUrl.Companion.toHttpUrl
 
 //Pour instancier le repository, il doit faire appel aux fonctions lors des gets et sets, il doit aussi ne pas être instancicié dans le main
 class TrainingViewModel : ViewModel() {
@@ -30,14 +25,14 @@ class TrainingViewModel : ViewModel() {
     }
     var TmpString = ""
     lateinit var TmpTraining : Training
+    var remote:TrainingServices = TrainingServices()
 
 
 
     //Initialisation de la base de données
 
-    fun init(dao: TrainingDao,remote: TrainingServices){
+    fun init(dao: TrainingDao){
         repository = TrainingRepository(dao,remote)    //initialisation du repository pour l'utiliser à travers d'autre fonction de get et de set
-
     }
 
     suspend fun deleteLocalTrainingFromRepository(TrainingDelete:Training){
@@ -62,9 +57,9 @@ class TrainingViewModel : ViewModel() {
 
     //getter
 
-    suspend fun getLocalTrainingsFromRepository(): List<Training> {
+    suspend fun getTrainings(boolean: Boolean,  URL: HttpUrl = "http://localhost:3000/trainings".toHttpUrl()!!): List<Training> {
        // return repository.getLocalTraining()
-        return repository.getTraining(false)
+        return repository.getTraining(boolean,URL)
     }
 
     suspend fun getLocalTrainingsByIDFromRepository(IdTraining : Int): Training {

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import data.daos.TrainingDao
 import data.db.entities.Training
 import data.remote.services.TrainingServices
+import data.remote.services.TrainingServicesinter
 import data.repository.TrainingRepository
 
 class TrainingViewModelold : ViewModel(){

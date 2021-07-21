@@ -1,8 +1,5 @@
 package com.mindorks.framework.mvvm.remote.services
 
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import com.mindorks.framework.mvvm.testUtils.readResourceAsString
 import data.db.entities.Training
 import okhttp3.OkHttpClient
@@ -11,15 +8,15 @@ import okhttp3.mockwebserver.MockWebServer
 import org.junit.Assert
 import org.junit.Test
 import java.io.IOException
-import data.remote.services.TrainingServices
+import data.remote.services.TrainingServicesinter
 import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.junit.After
 import org.junit.Before
-import java.lang.reflect.Type
 
 
-class TrainingServiceTest : TrainingServices {
+class TrainingServiceTest : TrainingServicesinter {
    var baseUrl : HttpUrl = "https://www.youtube.com/user/WatchTheDaily/videos".toHttpUrlOrNull()!! //
 
     @Before
@@ -39,8 +36,9 @@ class TrainingServiceTest : TrainingServices {
     @Test
     fun testtoList(){
         val listTraining: List<Training>
+        val baseUrltest: HttpUrl = "http://localhost:3000/trainings".toHttpUrl()
         val testTraining: Training = Training(3, "training 3")
-        listTraining=FetchTrainingtoList(OkHttpClient(),baseUrl)
+        listTraining=FetchTrainingtoList(baseUrltest)
         assert(listTraining.contains(testTraining))
         println("resultat "+listTraining.toString()+"resultat "+"\n")
     }

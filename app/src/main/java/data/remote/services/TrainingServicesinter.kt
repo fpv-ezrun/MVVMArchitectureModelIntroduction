@@ -1,16 +1,18 @@
 package data.remote.services
 
+import com.google.gson.JsonObject
 import data.db.entities.Training
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.Response
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 
-class TrainingServices {
+interface TrainingServicesinter {
     @Throws(IOException::class)
-    fun FetchTraining(client: OkHttpClient, base: HttpUrl): String {
+   fun FetchTraining(client: OkHttpClient, base: HttpUrl): String {
         val request = Request.Builder()
             .url(base)
             .build()
